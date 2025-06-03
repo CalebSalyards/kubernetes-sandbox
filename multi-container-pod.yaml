@@ -9,7 +9,9 @@ spec:
       # Read entire configmap into environment variables
       envFrom:
         - configMapKeyRef:
-            name: example-configmap
+          name: example-configmap
+        - secretRef:
+          name: mysecret
       # Read individual values from configmap into environment variables
       # env:
       #   - name: COLOR
@@ -48,3 +50,6 @@ spec:
   - name: config-volume
     configMap:
       name: example-configmap
+  - name: secret
+    secret:
+      SecretName: example-secret
