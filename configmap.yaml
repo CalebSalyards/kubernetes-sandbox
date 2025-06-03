@@ -2,3 +2,13 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: example-configmap
+data:
+  color: "blue"
+  version: "1"
+  environment: "prod"
+  configfile.txt: |
+    [Example]
+    ini=file
+    key1=value1
+    key2=value2
+  token: "1A2B3C4D"
