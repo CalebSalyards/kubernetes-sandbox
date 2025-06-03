@@ -22,7 +22,7 @@ spec:
     - name: mysql-proxy-ambassador
       image: mysql-proxy:latest
       ports:
-        - containerPort: 3306
+        - containerPort: 3306 # Containers in pod can access at localhost:3306
       env:
       - name: DB_HOST
         value: mysql.xxx.us-east-1.rds.amazonaws.com
