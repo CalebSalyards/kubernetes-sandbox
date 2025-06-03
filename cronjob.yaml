@@ -1,0 +1,17 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: hellow-orld-cronjob
+spec:
+  schedule:
+  ttlSecondsAfterFinished: 30
+  template:
+    metadata:
+      name: hellow-orld-job
+    spec:
+      restartPolicy: OnFailure
+      containers:
+      - name: hellow-orld-container
+        image: busybox
+        command: ["/bin/sh", "-c"]
+        args: ["echo 'Hellow Orld'"]

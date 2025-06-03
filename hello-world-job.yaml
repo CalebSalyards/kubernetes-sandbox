@@ -1,0 +1,20 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: hellow-orld-job
+spec:
+  backoffLimit: 3 # Number of attempts before counting as a failure (only on restartPolicy: OnFailure)
+  activeDeadlineSeconds: 60
+  ttlSecondsAfterFinished: 30 # Removes job from cluster after specified time (on success)
+  completions: 10 # Creates this many iterations in sequence
+  parallelism: 5  # Creates this many iterations in parallel
+  template:
+    metadata:
+      name: hellow-orld-job
+    spec:
+      restartPolicy: OnFailure
+      containers:
+      - name: hellow-orld-container
+        image: busybox
+        command: ["/bin/sh", "-c"]
+        args: ["echo 'Hellow orld'; sleep 3"]

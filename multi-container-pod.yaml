@@ -1,0 +1,26 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: multicontainer-pod
+spec:
+  containers:
+    - name: nginx-container
+      image: nginx:latest
+      volumeMounts:
+      - mountPath: /var/i-am-empty
+        name: emptydir-volume
+      - mountPath: /var/config
+        name: hostpath-volume
+    - name: busybox-container
+      image: busybox:latest
+      command: ["/bin/sh"] # Corrosponds to ENTRYPOINT
+      args: ["-c", "while true; do sleep 30; done;"] # Corrosponds to CMD
+      volumeMounts:
+      - mountPath: /var/i-am-empty
+        name: emptydir-volume
+  volumes:
+  - name: emptydir-volume
+    emptyDir: {} # Initialize an emptyDir
+  - name: hostpath-volume
+    hostPath:
+      path: /tmp # Path of the directory on the host node
