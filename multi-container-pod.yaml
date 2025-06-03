@@ -18,6 +18,14 @@ spec:
       volumeMounts:
       - mountPath: /var/i-am-empty
         name: emptydir-volume
+    # Example Ambassador container
+    - name: mysql-proxy-ambassador
+      image: mysql-proxy:latest
+      ports:
+        - containerPort: 3306
+      env:
+      - name: DB_HOST
+        value: mysql.xxx.us-east-1.rds.amazonaws.com
   volumes:
   - name: emptydir-volume
     emptyDir: {} # Initialize an emptyDir
