@@ -6,11 +6,24 @@ spec:
   containers:
     - name: nginx-container
       image: nginx:latest
+      # Read entire configmap into environment variables
+      envFrom:
+        - configMapKeyRef:
+            name: example-configmap
+      # Read individual values from configmap into environment variables
+      # env:
+      #   - name: COLOR
+      #     valueFrom:
+      #       configMapKeyRef:
+      #         name: example-configmap
+      #         key: color
       volumeMounts:
       - mountPath: /var/i-am-empty
         name: emptydir-volume
       - mountPath: /var/config
         name: hostpath-volume
+      - mountPath: /etc/conf
+        name: config-volume
     - name: busybox-container
       image: busybox:latest
       command: ["/bin/sh"] # Corrosponds to ENTRYPOINT
@@ -32,3 +45,6 @@ spec:
   - name: hostpath-volume
     hostPath:
       path: /tmp # Path of the directory on the host node
+  - name: config-volume
+    configMap:
+      name: example-configmap
