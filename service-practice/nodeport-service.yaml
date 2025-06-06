@@ -3,7 +3,7 @@ kind: Service
 metadata:
   name: nodeport-whoami
 spec:
-  type: nodeport
+  type: NodePort
   selector: # Uses this Pod label to detect target pods
     app: whoami
   ports:
