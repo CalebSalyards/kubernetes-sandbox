@@ -2,11 +2,11 @@ apiVersion: v1
 kind: Pod
 metadata:
   name: whoami2
+  labels:
+    app: whoami
 spec:
   containers:
   - image: nginx:latest
     name: containous/whoami
-    labels:
-      app: whoami
     ports:
     - containerPort: 80
