@@ -6,7 +6,7 @@ metadata:
     app: whoami
 spec:
   containers:
-  - image: nginx:latest
-    name: containous/whoami
+  - image: containous/whoami
+    name: whoami1
     ports:
     - containerPort: 80
