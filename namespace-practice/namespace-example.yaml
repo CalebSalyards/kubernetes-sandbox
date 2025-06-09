@@ -1,0 +1,58 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: namespace-example
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx-pod
+  namespace: namespace-example
+spec:
+  containers:
+    - name: nginx-in-namespace
+      image: nginx:latest
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: configmap-in-namespace
+  namespace: namespace-example
+---
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: resourcequota-example
+  namespace: namespace-example
+spec:
+  hard:
+    # Pods can't request more resources than this
+    requests.cpu: "1000m"
+    requests.memory: "1Gi"
+    # Pods can't consume more resources than this
+    limits.cpu: "2000m"
+    limits.memory: "2Gi"
+    # Namespace can't have more than this many of each resource
+    configmaps: "10"
+    services: "5"
+---
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: limitrange-example
+  namespace: namespace-example
+spec:
+  limits:
+    - default: # Default limits if Pod does not specify limits
+        memory: 256Mi
+        cpu: 500m
+      defaultRequest: # Default requests if Pod does not specify requests
+        memory: 128Mi
+        cpu: 250m
+      max: # Max limit a pod can set
+        memory: 1Gi
+        cpu: 1000m
+      min: # Minimum resources a pod can request (cannot be lower than defaultRequest)
+        memory: 128Mi
+        cpu: 250m
+      type: Container
