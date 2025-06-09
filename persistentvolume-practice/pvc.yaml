@@ -10,3 +10,5 @@ spec:
     matchLabels:
       type: hostpath
       env: prod
+  accessModes:
+    - ReadWriteOnce
