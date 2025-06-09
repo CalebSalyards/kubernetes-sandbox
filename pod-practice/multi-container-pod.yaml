@@ -6,6 +6,13 @@ spec:
   containers:
     - name: nginx-container
       image: nginx:latest
+      resources:
+        requests:
+          memory: "512Mi"
+          cpu: "250m" # Specifying by "millicores" (1000m is 1 full CPU core)
+        limits:
+          memory: "1Gi" # Exceeding this will cause the container to be killed
+          cpu: "1000m" # Exceeding this will cause a container to throttle
       # Read entire configmap into environment variables
       envFrom:
         - configMapKeyRef:
