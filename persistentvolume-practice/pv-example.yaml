@@ -3,9 +3,10 @@ kind: PersistentVolume
 metadata:
   name: pv-hostpath
 spec:
-  volumeMode: Filesystem
+  storageClassName: standard
+  hostPath:
+    path: /tmp/persistent-volume
   accessModes:
     - ReadWriteOnce
   capacity:
     storage: 1Gi
-    
