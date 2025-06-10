@@ -1,0 +1,62 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: nginx
+      environment: test
+  minReadySeconds: 10
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 1
+  template:
+    metadata:
+      labels:
+        app: nginx
+        environment: test
+    spec:
+      containers:
+        - name: nginx
+          image: nginx:1.17
+          ports:
+            - containerPort: 80
+          command:
+            - /bin/sh
+            - -c
+            - |
+              touch /user/share/nginx/html/ready
+              echo "You have been served by Pod with IP $(hostname -i)" > /usr/share/nginx/html/index.html
+              nginx -g "daemon off;"
+          readinessProbe:
+            httpGet:
+              path: /ready
+              port: 80
+            iniditalDelaySeconds: 5
+            periodSeconds: 2 
+            timeoutSeconds: 10
+            successThreshold: 1
+            failureThreshold: 2
+
+# Use the --record flag when applying for tracking changes made to objects
+# Use "$ kubectl rollout status deployment <deployment>" to track the deployent status is real time
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-deployment-service
+spec:
+  selector:
+    app: nginx
+    environment: test
+  type: NodePort
+  ports:
+    - port: 80
+      protocol: TCP
+      targetPort: 80
