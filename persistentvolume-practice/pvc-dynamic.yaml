@@ -1,0 +1,42 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: dynamic-pvc
+
+---
+
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: dynamic-hostpath
+  namespace: dynamic-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: standard
+  resources:
+    requests:
+      storage: 1Gi
+    selector:
+      matchLabels:
+        type: hostpath
+        env: prod
+
+---
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx-dynamic
+  namespace: dynamic-pvc
+spec:
+  containers:
+    - image: nginx
+      name: nginx
+      volumeMounts:
+        - mountPath: "/var/www/html"
+          name: dynamic-persistent-volume
+  volumes:
+    - name: dynamic-persistent-volume
+      PersistentVolumeClaim:
+        claimName: dynamic-hostpath
