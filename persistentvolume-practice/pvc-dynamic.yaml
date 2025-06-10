@@ -38,5 +38,5 @@ spec:
           name: dynamic-persistent-volume
   volumes:
     - name: dynamic-persistent-volume
-      PersistentVolumeClaim:
+      persistentVolumeClaim:
         claimName: dynamic-hostpath
