@@ -6,5 +6,27 @@ spec:
   containers:
   - image: nginx:latest
     name: new-nginx-container
+    readinessProbe:
+      iniditalDelaySeconds: 5 # Time to wait before first health check
+      periodSeconds: 5 # Time to wait between subsequent health checks
+      httpGet:
+        path: /ready # Check this path for a response code 200-399
+        port: 80 # Port to poke the server at
+    livenessProbe:
+      iniditalDelaySeconds: 5 # Time to wait before first health check
+      periodSeconds: 5 # Time to wait between subsequent health checks
+      httpGet:
+        path: /healthcheck
+        port: 80
+        httpHeaders:
+          - name: My-Custom-Header
+            value: My-Custom-Value
+      # Example command probe
+      # command:
+      #   - cat
+      #   - /hellow/orld
+      # Example TCP probe
+      # tcpSocket:
+      #   port: 80
     ports:
     - containerPort: 80
