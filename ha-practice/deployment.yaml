@@ -10,7 +10,7 @@ spec:
       environment: test
   minReadySeconds: 10
   strategy:
-    type: RollingUpdate
+    type: RollingUpdate # Recreate does all pods simultaneously...not production-friendly
     rollingUpdate:
       # These values can be percentages instead of number of nodes
       maxUnavailable: 1
