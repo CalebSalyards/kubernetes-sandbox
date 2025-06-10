@@ -17,10 +17,10 @@ spec:
   resources:
     requests:
       storage: 1Gi
-    selector:
-      matchLabels:
-        type: hostpath
-        env: prod
+  selector:
+    matchLabels:
+      type: hostpath
+      env: prod
 
 ---
 
