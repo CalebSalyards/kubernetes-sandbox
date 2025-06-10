@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: nginx-ReplicaSet
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: nginx
+      # environment: test OR for multiple 'environment' values: vvv
+    matchExpressions:
+      - key: environment
+        operator: In
+        values:
+          - test
+          - dev
+  template:
+    metadata:
+      labels:
+        app: nginx
+        environment: test
+    spec:
+      containers:
+        - name: nginx
+          image: nginx:1.17
+          ports:
+           - containerPort: 80
