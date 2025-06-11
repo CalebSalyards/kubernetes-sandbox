@@ -1,0 +1,92 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: nginx-statefulset
+spec:
+  replicas: 3
+  serviceName: nginx-headless
+  selector:
+    matchLabels:
+      app: nginx-stateful
+      environment: test
+  # minReadySeconds: 10
+  # strategy:
+  #   type: RollingUpdate # Recreate does all pods simultaneously...not production-friendly
+  #   rollingUpdate:
+  #     # These values can be percentages instead of number of nodes
+  #     maxUnavailable: 1
+  #     maxSurge: 1
+  template:
+    metadata:
+      labels:
+        app: nginx-stateful
+        environment: test
+    spec:
+      containers:
+        - name: nginx
+          image: nginx:1.17
+          ports:
+            - containerPort: 80
+          volumeMounts:
+            - name: nginx-data
+              mountPath: /usr/share/nginx/html
+          command:
+            - /bin/sh
+            - -c
+            - |
+              touch /usr/share/nginx/html/ready
+              echo "You have been served by Pod with IP $(hostname -i)" > /usr/share/nginx/html/index.html
+              nginx -g "daemon off;"
+          # readinessProbe:
+          #   httpGet:
+          #     path: /ready
+          #     port: 80
+          #   initialDelaySeconds: 5
+          #   periodSeconds: 2 
+          #   timeoutSeconds: 10
+          #   successThreshold: 1
+          #   failureThreshold: 2
+      volumeClaimTemplates:
+        - metadata:
+            name: nginx-data
+          spec:
+            accessModes: [ "ReadWriteOnce" ]
+            resources:
+              requests:
+                storage: 1Gi
+
+# Use the --record flag when applying for tracking changes made to objects
+# Use "$ kubectl rollout status deployment <deployment>" to track the deployent status is real time
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-headless
+spec:
+  selector:
+    app: nginx-stateful
+    environment: test
+  type: ClusterIP
+  clusterIP: none
+  ports:
+    - port: 80
+      protocol: TCP
+      targetPort: 80
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-client
+spec:
+  selector:
+    app: nginx-stateful
+    environment: test
+  type: LoadBalancer
+  ports:
+    - ports: 80
+      protocol: TCP
+      targetPort: 80
