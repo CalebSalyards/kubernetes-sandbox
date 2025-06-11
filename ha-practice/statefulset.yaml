@@ -9,7 +9,7 @@ spec:
   updateStrategy:                   # I'm farily certain these are all defaults and can technically be 
     type: RollingUpdate             # omitted unless changes are desired.
     rollingUpdate:                  # 
-      partition: 0                   # 
+      partition: 0                  # Pods with an ordinal number less than this will not be updated
   selector:
     matchLabels:
       app: nginx-stateful
