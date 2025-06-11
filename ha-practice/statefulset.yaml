@@ -46,14 +46,14 @@ spec:
           #   timeoutSeconds: 10
           #   successThreshold: 1
           #   failureThreshold: 2
-      volumeClaimTemplates:
-        - metadata:
-            name: nginx-data
-          spec:
-            accessModes: [ "ReadWriteOnce" ]
-            resources:
-              requests:
-                storage: 1Gi
+  volumeClaimTemplates:
+    - metadata:
+        name: nginx-data
+      spec:
+        accessModes: [ "ReadWriteOnce" ]
+        resources:
+          requests:
+            storage: 1Gi
 
 # Use the --record flag when applying for tracking changes made to objects
 # Use "$ kubectl rollout status deployment <deployment>" to track the deployent status is real time
@@ -68,8 +68,8 @@ spec:
   selector:
     app: nginx-stateful
     environment: test
-  type: ClusterIP
-  clusterIP: none
+  # type: ClusterIP
+  clusterIP: None
   ports:
     - port: 80
       protocol: TCP
@@ -87,6 +87,6 @@ spec:
     environment: test
   type: LoadBalancer
   ports:
-    - ports: 80
+    - port: 80
       protocol: TCP
       targetPort: 80
