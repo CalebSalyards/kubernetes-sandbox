@@ -61,7 +61,7 @@ spec:
             storage: 1Gi
 
 # Use the --record flag when applying for tracking changes made to objects
-# Use "$ kubectl rollout status deployment <deployment>" to track the deployent status is real time
+# Use "$ kubectl rollout status deployment <deployment>" to track the deployment status is real time
 
 ---
 

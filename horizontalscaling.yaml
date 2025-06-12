@@ -35,7 +35,7 @@ roleRef:
 --- 
 
 apiVersion: apps/v1
-kind: Deployent
+kind: Deployment
 metadata:
   name: elastic-hamster
 spec:
@@ -88,5 +88,5 @@ spec:
   targetCPUUtilizationPercentage: 75
   scaleTargetRef:
     apiVersion: apps/v1
-    kind: Deployent
+    kind: Deployment
     name: elastic-hamster
