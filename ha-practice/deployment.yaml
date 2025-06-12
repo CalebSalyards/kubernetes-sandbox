@@ -21,6 +21,29 @@ spec:
         app: nginx
         environment: test
     spec:
+      # nodeName: <nodeName> # Mandates that the pod(s) are scheduled on the specified node
+      # nodeSelector: # Mandates that the pod(s) are scheduled only on nodes falling under the selector
+      #   node-type: superfast # kubectl label nodes <node-name> <key>:<value>
+      # affinity:
+      #   nodeAffinity:
+      #     # Anti-affinity rule
+      #     requiredDuringSchedulingIgnoredDuringExecution: # Hard rule
+      #       nodeSelectorTerms:
+      #         matchExpressions:
+      #           - key: node-type
+      #             operator: NotIn
+      #             values:
+      #               - extremelyslow
+      #     # Affinity rule
+      #     preferredDuringSchedulingIgnoredDuringExecution: # Soft rule
+      #       - weight: 1 # Weight of soft rule
+      #         preference:
+      #           matchExpressions:
+      #             - key: node-type
+      #               operator: In
+      #               values:
+      #                 - fast
+      #                 - superfast
       containers:
         - name: nginx
           image: nginx:1.18
